@@ -12,7 +12,7 @@ public class SpringExtension extends
     /**
      * The identifier used to access the SpringExtension.
      */
-    public static SpringExtension SpringExtProvider = new SpringExtension();
+    public static final SpringExtension SpringExtensionProvider = new SpringExtension();
 
     /**
      * Is used by Akka to instantiate the Extension identified by this
