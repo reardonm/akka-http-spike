@@ -1,16 +1,15 @@
 package com.mtnsat.ir.devices;
 
 import akka.http.javadsl.model.*;
-import akka.http.javadsl.testkit.JUnitRouteTest;
 import akka.http.javadsl.testkit.TestRoute;
+import com.mtnsat.ir.test_util.JsonAPITest;
 import org.junit.Test;
 
 import java.util.Collections;
 import java.util.Map;
 
-import static akka.http.javadsl.marshallers.jackson.Jackson.*;
 
-public class StatusAPITest extends JUnitRouteTest {
+public class StatusAPITest extends JsonAPITest {
 
     TestRoute appRoute = testRoute(new StatusAPI().createRoute());
 
@@ -27,8 +26,9 @@ public class StatusAPITest extends JUnitRouteTest {
         appRoute.run(HttpRequest.GET("/status/manifest"))
                 .assertStatusCode(StatusCodes.OK)
                 .assertMediaType(MediaTypes.APPLICATION_JSON)
-                .assertEntityAs(jsonAs(Map.class), Collections.singletonMap("foo","bar"));
+                .assertEntityAs(jsonAs(Map.class), Collections.singletonMap("foo", "bar"));
     }
+
 
     @Test
     public void statusGET() {

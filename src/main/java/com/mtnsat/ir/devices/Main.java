@@ -3,9 +3,12 @@ package com.mtnsat.ir.devices;
 import akka.event.Logging;
 import akka.actor.ActorSystem;
 import akka.event.LoggingAdapter;
+import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.server.HttpApp;
 import akka.http.javadsl.server.Route;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.util.Map;
 
 
 /**
@@ -25,19 +28,17 @@ public class Main {
         // TODO DI, SLF4J?
         LoggingAdapter logger = Logging.getLogger(system, Main.class);
 
-        // TODO Json
-        //ActorMaterializer materializer = ActorMaterializer.create(system);
+        V1DeviceControllerAPI deviceApi = ctx.getBean(V1DeviceControllerAPI.class);
+        logger.info(deviceApi.toString());
+
 
         try {
             HttpApp http = new HttpApp() {
                 @Override
                 public Route createRoute() {
-                    return route(
-                        new V1DeviceControllerAPI().createRoute(),
-                        new StatusAPI().createRoute());
+                    return route(new StatusAPI().createRoute(), deviceApi.createRoute());
                 }
             };
-
             http.bindRoute("localhost", 8080, system);
             System.out.println("Type RETURN to exit");
             System.in.read();

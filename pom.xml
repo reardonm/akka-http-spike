@@ -26,6 +26,8 @@
         <jackson.version>2.5.2</jackson.version>
         <jdk.version>1.8</jdk.version>
         <akka.version>2.3.13</akka.version>
+        <akka-http.version>1.0</akka-http.version>
+        <jackson.version>2.6.1</jackson.version>
         <zeroimpact-common.version>[1.1.1,1.2)</zeroimpact-common.version>
 
         <!-- use UTF-8 for everything -->
@@ -215,26 +217,23 @@
             <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-http-testkit-experimental_2.10</artifactId>
             <scope>test</scope>
-            <version>1.0</version>
+            <version>${akka-http.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-actor_2.10</artifactId>
             <version>${akka.version}</version>
         </dependency>
-
-
         <dependency>
             <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-http-experimental_2.10</artifactId>
-            <version>1.0</version>
+            <version>${akka-http.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-http-jackson-experimental_2.10</artifactId>
-            <version>1.0</version>
+            <version>${akka-http.version}</version>
         </dependency>
 
         <dependency>
@@ -242,11 +241,43 @@
             <artifactId>spring-beans</artifactId>
             <version>${springframework.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${springframework.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-guava</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>16.0.1</version>
         </dependency>
 
         <dependency>
@@ -255,7 +286,17 @@
             <version>build260</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.mtnsat</groupId>
+            <artifactId>zeroimpact-common</artifactId>
+            <version>${zeroimpact-common.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.yammer.dropwizard</groupId>
+                    <artifactId>dropwizard-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
 
