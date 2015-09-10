@@ -3,6 +3,7 @@ package com.mtnsat.ir.devices;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigBeanFactory;
 import com.typesafe.config.ConfigFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -25,9 +26,17 @@ class AppConfiguration {
     private ApplicationContext applicationContext;
 
     @Bean
-    public Config config() {
-        //TODO: config file
+    public Config rawConfig() {
         return ConfigFactory.load();
+    }
+
+    /**
+     * Map the raw config into a config class
+     */
+    @Bean
+    public DeviceControllerConfig applicationConfig(Config rawConfig) {
+        Config appConfig = rawConfig.getConfig(DeviceControllerConfig.CONFIG_NAME);
+        return ConfigBeanFactory.create(appConfig, DeviceControllerConfig.class);
     }
 
     /**
