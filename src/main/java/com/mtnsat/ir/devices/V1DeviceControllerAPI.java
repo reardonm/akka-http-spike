@@ -21,6 +21,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
+import static akka.japi.Util.classTag;
+
+
 import static akka.http.javadsl.marshallers.jackson.Jackson.*;
 
 
@@ -31,6 +34,9 @@ public class V1DeviceControllerAPI extends AllDirectives {
 
     private final ObjectMapper mapper;
     private final ActorRef monitoringManager;
+
+    private final Timeout timeout = new Timeout(Duration.create(5, "seconds"));
+
 
     @Autowired
     public V1DeviceControllerAPI(DeviceControllerConfig config, ObjectMapper mapper, ActorRef monitoringManager){
@@ -50,12 +56,7 @@ public class V1DeviceControllerAPI extends AllDirectives {
                 ),
                 path("alerts").route(
                     get(
-                        handleWith(ctx -> {
-                                    Timeout timeout = new Timeout(Duration.create(5, "seconds"));
-                                    Future<Object> future = Patterns.ask(monitoringManager, "foo", timeout);
-                                    Map<String,String> result = (Map<String,String>) Await.result(future, timeout.duration());
-                                    return ctx.completeAs(json(mapper), result);
-                                }
+                        handleWithAsync(ctx -> Patterns.ask(monitoringManager, "foo", timeout).mapTo(classTag(RouteResult.class)))
                     )
                 ),
                 path("getcurrentroute").route(
